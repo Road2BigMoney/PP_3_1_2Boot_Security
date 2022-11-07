@@ -5,8 +5,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,8 @@ public class User {
     private int value;
     @Column
     private String name;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     public long getId() {
         return id;
