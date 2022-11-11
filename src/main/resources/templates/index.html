@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8">
+    <title>Юзерчки</title>
+    <style>
+        button {
+            padding-inline: 130px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+            background-color: lightgray;
+            border-radius: 5px ;
+            border-image-width: initial;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
+<h1>Юзерчки</h1>
+<br>
+<button onclick="window.location.href = '/new';">Добавить нового юзерчика</button>
+<br><br>
+<table border="1">
+    <tr>
+        <th th:width="50">Id</th>
+        <th th:width="120">Name</th>
+        <th th:width="120">Value</th>
+        <th th:width="50">Edit</th>
+        <th th:width="50">Delete</th>
+    </tr>
+    <tr th:each="users : ${users}">
+
+        <td><a th:href="@{'/' + ${users.getId()}}" th:utext="${users.getId()}">UserId</a></td>
+        <td th:utext="${users.name}">Name</td>
+        <td th:utext="${users.value}">Surname</td>
+        <td>
+            <form th:action="@{'edit/' + ${users.getId()}}">
+                <input type="submit" class="buttonEdit" value="Edit"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{'delete/' + ${users.getId()}}">
+                <input type="submit" class="buttonDelete" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+</table>
+
 
 
 </body>

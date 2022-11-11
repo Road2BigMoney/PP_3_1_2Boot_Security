@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Save user</title>
+</head>
+<body>
+<div>
+  <h1>Введите данные нового пользователя</h1>
+  <br><br>
+  <form th:method="POST" th:action="@{/new}" th:object="${user}">
+
+    <br><br>
+    <label for ="name">Введите имя:     </label>
+    <input type = "text" th:field="*{name}" id = "name"/>
+    <br><br>
+    <label for="value">Введите значение: </label>
+    <input type = "text" th:field="*{value}" id = "value"/>
+    <br><br>
+    <br><br>
+    <input type = "submit" value="Создать пользователя">
+
+  </form>
+  <input th:action="@{'/'}" type="submit" value="to List"/>
+
+
+</div>
+</body>
+</html>
