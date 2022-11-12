@@ -7,14 +7,19 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     @Transient
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
+
+    public Role() {
+
+    }
 
     public int getId() {
         return id;
