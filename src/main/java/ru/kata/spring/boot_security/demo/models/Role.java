@@ -50,7 +50,12 @@ public class Role implements GrantedAuthority {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
         Role role = (Role) o;
-        return id == role.id && Objects.equals(name, role.name) && Objects.equals(users, role.users);
+        return id == role.id && name.equals(role.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 
     @Override
@@ -58,13 +63,7 @@ public class Role implements GrantedAuthority {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", users=" + users +
                 '}';
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, users);
     }
 
     @Override
