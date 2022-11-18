@@ -18,7 +18,7 @@
 <body>
 <h1>Юзерчки</h1>
 <br>
-<button onclick="window.location.href = '/new';">Добавить нового юзерчика</button>
+<button onclick="window.location.href = '/admin/new/';">Добавить нового юзерчика</button>
 <br><br>
 <table border="1">
     <tr>
@@ -30,21 +30,23 @@
     </tr>
     <tr th:each="user : ${users}">
 
-        <td><a th:href="@{'/' + ${user.getId()}}" th:utext="${user.getId()}">UserId</a></td>
+        <td><a th:href="@{'user/' + ${user.getId()}}" th:utext="${user.getId()}">UserId</a></td>
         <td th:utext="${user.name}">Name</td>
         <td th:utext="${user.value}">Surname</td>
         <td>
-            <form th:action="@{'edit/' + ${user.getId()}}">
+            <form th:action="@{'/admin/edit/' + ${user.getId()}}">
                 <input type="submit" class="buttonEdit" value="Edit"/>
             </form>
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{'admin/delete/' + ${user.getId()}}">
-                <input type="submit" class="buttonDelete" value="Delete"/>
+            <form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
+                <input type="submit" value="Delete"/>
             </form>
         </td>
     </tr>
 </table>
+<br>
+<p><a href="/logout">Log out</a></p>
 
 
 

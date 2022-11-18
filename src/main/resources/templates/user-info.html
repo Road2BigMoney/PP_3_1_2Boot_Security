@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -20,20 +21,23 @@
   <span>value: </span> <span th:text="${user.getValue()}">VALUE</span>
 
 </div>
-<br>
-  <table>
-    <tr>
-      <form th:action="@{'edit/' + ${user.getId()}}">
-        <input type="submit"  value="Edit"/>
-      </form>
-    </tr>
-    <tr>
-      <form th:action="@{'/'}">
-        <input type="submit"  value="to List"/>
-      </form>
-    </tr>
-  </table>
-<br>
+<!--<div sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--  <br>-->
+<!--  <table>-->
+<!--    <tr>-->
+<!--      <form th:action="@{'/admin/edit/' + ${user.getId()}}">-->
+<!--        <input type="submit"  value="Edit"/>-->
+<!--      </form>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--      <form th:action="@{'/'}">-->
+<!--        <input type="submit"  value="to List"/>-->
+<!--      </form>-->
+<!--    </tr>-->
+<!--  </table>-->
+<!--  <br>-->
+<!--</div>-->
+
 <p><a href="/logout">Log out</a></p>
 
 

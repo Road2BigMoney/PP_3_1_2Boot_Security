@@ -9,7 +9,7 @@
 <div>
   <h1>Введите данные нового пользователя</h1>
   <br><br>
-  <form th:method="POST" th:action="@{/new}" th:object="${user}">
+  <form th:method="POST" th:action="@{/admin/new/}" th:object="${user}">
 
     <br><br>
     <label for ="name">Введите имя:     </label>
@@ -28,7 +28,9 @@
     <input type = "submit" value="Создать пользователя">
 
   </form>
-  <input th:action="@{'/'}" type="submit" value="to List"/>
+  <input th:action="@{'/admin/'}" type="submit" value="to List"/>
+  <br>
+  <p><a href="/logout">Log out</a></p>
 
 
 </div>
