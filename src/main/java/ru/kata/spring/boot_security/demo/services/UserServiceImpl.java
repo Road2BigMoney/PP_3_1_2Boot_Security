@@ -5,12 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,9 +43,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user, long id) {
         System.out.println("Service pre-encode psw: " + user.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("service update after encode psw: " + user.getPassword());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userRepository.save(user);
+
     }
     @Override
     public User getUserById(Long id) {

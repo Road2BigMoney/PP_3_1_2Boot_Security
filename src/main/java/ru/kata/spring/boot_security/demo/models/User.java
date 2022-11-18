@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private int value;
     @Column
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn (name = "user_id"),
