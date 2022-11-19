@@ -4,19 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleDAO;
+import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +17,15 @@ import java.util.List;
 
 @RequestMapping("/admin")
 public class AdminController {
-    private UserServiceImpl userService;
+    private UserService userService;
     private RoleDAO roleDAO;
-    private PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public AdminController(UserServiceImpl userService, RoleDAO roleDAO, PasswordEncoder passwordEncoder) {
+    public AdminController(UserServiceImpl userService, RoleDAO roleDAO) {
         this.userService = userService;
         this.roleDAO = roleDAO;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
 
@@ -49,19 +42,15 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String saveForm(@ModelAttribute("user") User user) throws SQLException {
+    public String saveForm(@ModelAttribute("user") User user) {
 
         return "save";
     }
 
 
     @PostMapping("/new")
-    public String saveUser(@ModelAttribute("user") User user) throws SQLException {
-
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleDAO.getById(1));
-        user.setRoles(roles);
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("roleId") List<Integer> roleId ) {
+        user.setRoles(roleDAO.findMultipleById(roleId));
         userService.addUser(user);
         return "redirect:/admin/";
     }
@@ -73,10 +62,8 @@ public class AdminController {
     }
 
     @PatchMapping("/edit/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id){
-        List<Role> roles = new ArrayList<>();
-        roles.add(roleDAO.getById(1));
-        user.setRoles(roles);
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id, @RequestParam("roleId") List<Integer> roleId){
+        user.setRoles(roleDAO.findMultipleById(roleId));
         userService.updateUser(user,id);
         return "redirect:/admin/";
     }

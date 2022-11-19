@@ -24,6 +24,12 @@
     <label for="value">Введите пароль: </label>
     <input type = "password" th:field="*{password}" id = "password"/>
     <br><br>
+    <input type="checkbox"  name="roleId" value="1"
+           checked>
+    <label >USER</label>
+
+    <input type="checkbox" name="roleId" value="2">
+    <label >ADMIN</label>
     <br><br>
     <input type = "submit" value="Создать пользователя">
 

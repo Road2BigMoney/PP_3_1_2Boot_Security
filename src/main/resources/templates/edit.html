@@ -38,6 +38,13 @@
     <label for="password">Enter password: </label>
     <input type="password" th:field="*{password}" id="password">
     <br/>
+    <input type="checkbox"  name="roleId" value="1"
+           checked>
+    <label >USER</label>
+
+    <input type="checkbox" name="roleId" value="2">
+    <label >ADMIN</label>
+    <br>
     <input type="submit" value="Edit" />
   </form>
   <button onclick="window.location.href = '/admin/';"> TO LIST </button>

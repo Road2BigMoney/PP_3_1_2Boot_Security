@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
 import java.security.Principal;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 
 public class UsersController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Autowired
     public UsersController(UserServiceImpl userService) {
