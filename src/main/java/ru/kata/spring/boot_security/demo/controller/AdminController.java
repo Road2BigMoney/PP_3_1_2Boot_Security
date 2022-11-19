@@ -4,28 +4,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.repositories.RoleDAO;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
-import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/admin")
+
+@RequestMapping("/admin")
 public class AdminController {
     private UserServiceImpl userService;
-    private RoleRepository roleRepository;
+    private RoleDAO roleDAO;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(UserServiceImpl userService, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AdminController(UserServiceImpl userService, RoleDAO roleDAO, PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
+        this.roleDAO = roleDAO;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -54,7 +60,7 @@ public class AdminController {
 
 
         List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.getById(1));
+        roles.add(roleDAO.getById(1));
         user.setRoles(roles);
         userService.addUser(user);
         return "redirect:/admin/";
@@ -69,7 +75,7 @@ public class AdminController {
     @PatchMapping("/edit/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id){
         List<Role> roles = new ArrayList<>();
-        roles.add(roleRepository.getById(1));
+        roles.add(roleDAO.getById(1));
         user.setRoles(roles);
         userService.updateUser(user,id);
         return "redirect:/admin/";
