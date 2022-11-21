@@ -1,16 +1,14 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleDAO;
+import ru.kata.spring.boot_security.demo.repositories.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Controller
@@ -18,13 +16,13 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
     private UserService userService;
-    private RoleDAO roleDAO;
+    private RoleService roleService;
 
 
     @Autowired
-    public AdminController(UserServiceImpl userService, RoleDAO roleDAO) {
+    public AdminController(UserServiceImpl userService, RoleService roleService) {
         this.userService = userService;
-        this.roleDAO = roleDAO;
+        this.roleService = roleService;
 
     }
 
@@ -50,7 +48,7 @@ public class AdminController {
 
     @PostMapping("/new")
     public String saveUser(@ModelAttribute("user") User user, @RequestParam("roleId") List<Integer> roleId ) {
-        user.setRoles(roleDAO.findMultipleById(roleId));
+        user.setRoles(roleService.findMultipleById(roleId));
         userService.addUser(user);
         return "redirect:/admin/";
     }
@@ -63,7 +61,7 @@ public class AdminController {
 
     @PatchMapping("/edit/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id, @RequestParam("roleId") List<Integer> roleId){
-        user.setRoles(roleDAO.findMultipleById(roleId));
+        user.setRoles(roleService.findMultipleById(roleId));
         userService.updateUser(user,id);
         return "redirect:/admin/";
     }

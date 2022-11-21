@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class RoleDAOImpl implements RoleDAO {
+public class RoleDAOImpl implements RoleService {
 
     @PersistenceContext
     private EntityManager entityManager;

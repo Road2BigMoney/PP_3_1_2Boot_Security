@@ -5,7 +5,7 @@ import ru.kata.spring.boot_security.demo.models.Role;
 import java.util.Collection;
 import java.util.List;
 
-public interface RoleDAO  {
+public interface RoleService {
     List<Role> findRoleByName(String name);
 
     public List<Role> findAll();
