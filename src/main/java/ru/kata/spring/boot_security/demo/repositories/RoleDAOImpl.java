@@ -16,10 +16,10 @@ public class RoleDAOImpl implements RoleService {
     private EntityManager entityManager;
 
     @Override
-    public List<Role> findRoleByName(String name) {
+    public Role findRoleByName(String name) {
         return entityManager.createQuery("select r from Role  r where r.name =:name", Role.class)
                 .setParameter("name", name)
-                .getResultList();
+                .getSingleResult();
     }
 
     @Override

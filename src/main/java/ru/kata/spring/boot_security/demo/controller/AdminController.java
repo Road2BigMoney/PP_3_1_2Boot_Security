@@ -4,12 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 
@@ -28,41 +35,26 @@ public class AdminController {
 
 
     @GetMapping("/")
-    public String index(Model model) {
-
+    public String index(Model model, Principal principal) {
+        model.addAttribute("userCurrent", userService.loadUserByUsername(principal.getName()));
         model.addAttribute("users", userService.getAllUsers());
-        return "index";
-    }
-    @GetMapping("user/{id}")
-    public String userInfo(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.loadUserByUsername(userService.getUserById(id).getUsername()));
-        return "user-info";
-    }
-
-    @GetMapping("/new")
-    public String saveForm(@ModelAttribute("user") User user) {
-
-        return "save";
+        model.addAttribute("listRoles", roleService.findAll());
+        model.addAttribute("newUser", new User());
+        return "adminPanel";
     }
 
 
     @PostMapping("/new")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("roleId") List<Integer> roleId ) {
-        user.setRoles(roleService.findMultipleById(roleId));
+    public String saveUser(@ModelAttribute("newUser") User user, @RequestParam("rolesName") List<String> roles) {
+        roles.forEach(roleName -> user.addRole(roleService.findRoleByName(roleName)));
         userService.addUser(user);
         return "redirect:/admin/";
     }
 
-    @GetMapping("/edit/{id}")
-    public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "/edit";
-    }
-
     @PatchMapping("/edit/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id, @RequestParam("roleId") List<Integer> roleId){
-        user.setRoles(roleService.findMultipleById(roleId));
-        userService.updateUser(user,id);
+    public String update(@ModelAttribute("user") @Valid User user, @RequestParam("rolesName") List<String> roles, @PathVariable("id") long id) {
+        roles.forEach(roleName -> user.addRole(roleService.findRoleByName(roleName)));
+        userService.updateUser(user, id);
         return "redirect:/admin/";
     }
 

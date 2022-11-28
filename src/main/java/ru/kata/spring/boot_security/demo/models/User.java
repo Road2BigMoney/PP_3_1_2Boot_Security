@@ -7,10 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -34,7 +31,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn (name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public long getId() {
         return id;
@@ -77,11 +74,11 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -109,6 +106,17 @@ public class User implements UserDetails {
         this.name = name;
     }
 
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public String getRolesToString() {
+        StringBuilder roleNames = new StringBuilder();
+        getRoles().forEach(x -> roleNames.append(x.getName().substring(5) + " "));
+
+        return roleNames.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -132,4 +140,5 @@ public class User implements UserDetails {
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }

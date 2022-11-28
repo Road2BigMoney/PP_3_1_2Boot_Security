@@ -12,45 +12,49 @@ import java.util.List;
 @Service
 @Transactional
 public class RoleServiceImpl implements ru.kata.spring.boot_security.demo.services.RoleService {
-    private final RoleService roleDAO;
+    private final RoleService roleService;
 
     @Autowired
-    public RoleServiceImpl(RoleService roleDAO) {
-        this.roleDAO = roleDAO;
+    public RoleServiceImpl(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @Override
-    public List<Role> findRoleByName(String name) {
-        return roleDAO.findRoleByName(name);
+    public Role findRoleByName(String name) {
+        return roleService.findRoleByName(name);
     }
 
     @Override
     public List<Role> findAll() {
-        return roleDAO.findAll();
+        return roleService.findAll();
     }
 
     @Override
     public Role findOne(Integer id) {
-        return roleDAO.findOne(id);
+        return roleService.findOne(id);
     }
 
     @Override
     public List<Role> findMultipleById(Collection<Integer> idCollection) {
-        return roleDAO.findMultipleById(idCollection);
+        return roleService.findMultipleById(idCollection);
     }
+//    @Override
+//    public Set<Role> findRolesByNames(Set<String> roleNames) {
+//        return
+//    }
 
     @Override
     public void save(Role role) {
-        roleDAO.save(role);
+        roleService.save(role);
     }
 
     @Override
     public void delete(Integer id) {
-        roleDAO.delete(id);
+        roleService.delete(id);
     }
 
     @Override
     public void update(Role role) {
-        roleDAO.update(role);
+        roleService.update(role);
     }
 }

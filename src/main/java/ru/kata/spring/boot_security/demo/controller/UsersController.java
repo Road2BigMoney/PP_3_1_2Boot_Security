@@ -23,12 +23,21 @@ public class UsersController {
         this.userService = userService;
     }
 
+    @GetMapping("/")
+    public String index(Model model){
 
+        return "/login";
+    }
+    @GetMapping("/login")
+    public String loginPage(Model model){
 
-    @GetMapping("user/")
+        return "/login";
+    }
+
+    @GetMapping("/user")
     public String userInfo(Principal principal, Model model) {
-        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
-        return "user-info";
+        model.addAttribute("userCurrent", userService.loadUserByUsername(principal.getName()));
+        return "userPage";
     }
 
 

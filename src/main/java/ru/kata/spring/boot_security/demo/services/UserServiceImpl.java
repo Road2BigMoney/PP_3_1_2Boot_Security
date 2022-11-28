@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.repositories.UserDAO;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userDAO.findAll();
     }
+
 
 
 }
