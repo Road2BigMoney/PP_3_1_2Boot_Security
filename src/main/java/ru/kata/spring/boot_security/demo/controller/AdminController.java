@@ -48,7 +48,6 @@ public class AdminController {
 
     @PostMapping("/new")
     public String saveUser(@ModelAttribute("newUser") User user, @RequestParam("rolesName") List<String> roles) {
-        roles.forEach(roleName -> user.addRole(roleService.findRoleByName(roleName)));
         userService.addUser(user, roleService.getSetRolesByRoleNames(roles));
         return "redirect:/admin/";
     }
