@@ -4,8 +4,9 @@ import ru.kata.spring.boot_security.demo.models.Role;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
-public interface RoleService {
+public interface RoleDAO {
     Role findRoleByName(String name);
 
     public List<Role> findAll();
@@ -13,6 +14,8 @@ public interface RoleService {
     public Role findOne(Integer id);
 
     public List<Role> findMultipleById(Collection<Integer> idCollection);
+
+    Set<Role> getSetRolesByRoleNames(List<String> roleNames);
 
     public void save(Role role);
 

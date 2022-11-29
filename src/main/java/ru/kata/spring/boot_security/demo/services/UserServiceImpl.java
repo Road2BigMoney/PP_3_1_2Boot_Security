@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserDAO;
-
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
+
 
 @Service
 @Transactional
@@ -36,7 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user, long id) {
+    public void updateUser(User user, long id, Set<Role> roles) {
+        user.setRoles(roles);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userDAO.update(user);
@@ -46,8 +47,9 @@ public class UserServiceImpl implements UserService {
         return userDAO.getById(id);
     }
     @Override
-    public void addUser(User user) {
+    public void addUser(User user, Set<Role> roles) {
         if (user != null) {
+            user.setRoles(roles);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userDAO.save(user);
         }

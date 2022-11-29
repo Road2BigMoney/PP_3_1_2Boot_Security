@@ -5,12 +5,10 @@ import ru.kata.spring.boot_security.demo.models.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Repository
-public class RoleDAOImpl implements RoleService {
+public class RoleDAOImpl implements RoleDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -40,6 +38,13 @@ public class RoleDAOImpl implements RoleService {
         for (Integer id : idCollection) {
             roles.add(findOne(id));
         }
+        return roles;
+    }
+
+    @Override
+    public Set<Role> getSetRolesByRoleNames(List<String> roleNames) {
+        Set<Role> roles = new HashSet<>();
+        roleNames.forEach(roleName -> roles.add(findRoleByName(roleName)));
         return roles;
     }
 
