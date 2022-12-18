@@ -16,10 +16,10 @@
 <!-- HEADER -->
 <div class=" col-sm-12 navbar navbar-dark bg-dark">
 
-    <div class="float-left">
-        <a class="font-weight-bold text-white " th:text="${userCurrent.getUsername()}">zzz@mail.ru</a>
-        <a class=" text-white"> with roles: </a>
-        <a class="text-white" th:text="${userCurrent.getRolesToString()}">ADMIN USER</a>
+    <div class="float-left" id = "header-data">
+<!--        <a class="font-weight-bold text-white " th:text="${userCurrent.getUsername()}">zzz@mail.ru</a>-->
+<!--        <a class=" text-white"> with roles: </a>-->
+<!--        <a class="text-white" th:text="${userCurrent.getRolesToString()}">ADMIN USER</a>-->
     </div>
     <a th:href="@{/logout}" class="btn float-right text-secondary ">Logout</a>
 
@@ -52,14 +52,8 @@
                                     <th scope="col">Role</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td th:utext="${userCurrent.getId()}"></td>
-                                    <td th:utext="${userCurrent.getName()}"></td>
-                                    <td th:utext="${userCurrent.getUsername()}"></td>
-                                    <td th:utext="${userCurrent.getValue()}"></td>
-                                    <td th:utext="${userCurrent.getRolesToString()}"></td>
-                                </tr>
+                                <tbody id ="currentUserTableBody">
+
                                 </tbody>
                             </table>
                         </td>
@@ -69,5 +63,7 @@
         </div>
     </div>
 </div>
+<script type="module" src="../static/user.js"></script>
+<script type="module" src="../static/functions.js"></script>
 </body>
 </html>

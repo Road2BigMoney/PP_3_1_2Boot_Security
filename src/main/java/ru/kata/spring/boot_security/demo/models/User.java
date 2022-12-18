@@ -1,5 +1,8 @@
 package ru.kata.spring.boot_security.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,14 +40,15 @@ public class User implements UserDetails {
     private int value;
     @Column
     private String name;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn (name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @Fetch(FetchMode.JOIN)
     private Set<Role> roles = new HashSet<>();
-
     public long getId() {
         return id;
     }
@@ -58,21 +62,25 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
@@ -82,6 +90,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
@@ -121,7 +130,7 @@ public class User implements UserDetails {
     public void addRole(Role role) {
         roles.add(role);
     }
-
+    @JsonIgnore
     public String getRolesToString() {
         StringBuilder roleNames = new StringBuilder();
         getRoles().forEach(x -> roleNames.append(x.getName().substring(5) + " "));
